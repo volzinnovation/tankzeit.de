@@ -563,7 +563,7 @@ def render_chart(rows: list[DayResult], output_path: Path) -> None:
         ax.spines[spine].set_visible(False)
     ax.spines["left"].set_color("#9aa9bd")
     ax.spines["bottom"].set_color("#9aa9bd")
-    ax.legend(loc="upper right", frameon=True, facecolor="white", edgecolor="#cbd5e1", framealpha=0.95)
+    ax.legend(loc="lower right", frameon=True, facecolor="white", edgecolor="#cbd5e1", framealpha=0.95)
 
     fig.text(
         0.06,
