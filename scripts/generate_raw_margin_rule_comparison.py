@@ -22,7 +22,6 @@ from matplotlib.ticker import FuncFormatter
 
 try:
     from .generate_data import (
-        ECB_FX_90D_XML_URL,
         FRED_BRENT_CSV_URL,
         LITERS_PER_BARREL,
         TANKER_BASE,
@@ -34,7 +33,6 @@ try:
     )
 except ImportError:  # pragma: no cover
     from generate_data import (
-        ECB_FX_90D_XML_URL,
         FRED_BRENT_CSV_URL,
         LITERS_PER_BARREL,
         TANKER_BASE,
@@ -48,6 +46,7 @@ except ImportError:  # pragma: no cover
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_DIR = ROOT / "output" / "raw_margin_rule_comparison"
+ECB_FX_HIST_XML_URL = "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml"
 
 VAT_RATE = 0.19
 DIESEL_ENERGY_TAX_EUR_PER_LITER = 0.4704
@@ -220,7 +219,7 @@ def load_daily_brent_values(start_day: date, end_day: date) -> dict[date, DailyB
         raise ValueError("Brent CSV contained no usable rows.")
 
     fx_xml = _read_text_from_url(
-        ECB_FX_90D_XML_URL,
+        ECB_FX_HIST_XML_URL,
         label="ECB FX history",
         show=True,
     ).lstrip()
@@ -430,6 +429,7 @@ def render_chart(rows: list[DayResult], output_path: Path) -> None:
     x_values = [row.day for row in rows]
     high_values = [row.line_high_margin for row in rows]
     low_values = [row.line_low_margin for row in rows]
+    long_range = (max(x_values) - min(x_values)).days > 120
 
     plt.rcParams.update(
         {
@@ -527,9 +527,9 @@ def render_chart(rows: list[DayResult], output_path: Path) -> None:
         high_values,
         color="#dc2626",
         marker="o",
-        markersize=3.8,
-        linewidth=2.3,
-        label="März: Tagesmaximum der Stundenmittel / April: 12:00-Anker",
+        markersize=2.0 if long_range else 3.8,
+        linewidth=1.7 if long_range else 2.3,
+        label="März: Tagesmaximum der Stundenmittel / ab April: 12:00-Anker",
         zorder=3,
     )
     ax.plot(
@@ -537,9 +537,9 @@ def render_chart(rows: list[DayResult], output_path: Path) -> None:
         low_values,
         color="#2563eb",
         marker="s",
-        markersize=3.6,
-        linewidth=2.3,
-        label="März: Tagesminimum der Stundenmittel / April: 11:00-Mittel",
+        markersize=2.0 if long_range else 3.6,
+        linewidth=1.7 if long_range else 2.3,
+        label="März: Tagesminimum der Stundenmittel / ab April: 11:00-Mittel",
         zorder=3,
     )
 
@@ -547,22 +547,22 @@ def render_chart(rows: list[DayResult], output_path: Path) -> None:
         high_march_mean,
         high_april_mean,
         "#dc2626",
-        "Mittelwerte März/April: Max / 12:00-Anker",
+        "Mittelwerte März/ab April: Max / 12:00-Anker",
     )
     draw_period_means(
         low_march_mean,
         low_april_mean,
         "#2563eb",
-        "Mittelwerte März/April: Min / 11:00-Mittel",
+        "Mittelwerte März/ab April: Min / 11:00-Mittel",
     )
 
     ax.axvline(cutover, color="#111827", linewidth=2, linestyle="--")
     ax.text(cutover + timedelta(days=0.4), ax.get_ylim()[1], "01.04. Regelwechsel", color="#111827", va="top")
 
     ax.set_title(
-        "Die 12-Uhr-Regel zeigt Wirkung: Die Margen steigen.\n"
-        f"Um 12 Uhr bleiben {format_percent(high_relative_delta)} mehr für Betriebskosten und Marge,\n"
-        f"selbst um 11 Uhr – inzwischen günstigste Tankzeit – sind es {format_percent(low_relative_delta)} mehr als im März.",
+        f"Diesel: Betriebskosten und Marge bis {max(x_values):%d.%m.%Y}\n"
+        f"Mittelwert ab April gegenüber März: 12-Uhr-Linie {format_percent(high_relative_delta)}, "
+        f"11-Uhr-Linie {format_percent(low_relative_delta)}",
         fontsize=14.8,
         fontweight="bold",
         pad=16,
@@ -571,8 +571,8 @@ def render_chart(rows: list[DayResult], output_path: Path) -> None:
     ax.set_ylabel("Betriebskosten und Marge (€/l)")
     ax.set_xlabel("Datum")
     ax.yaxis.set_major_formatter(FuncFormatter(lambda value, _pos: f"{value:.2f}".replace(".", ",")))
-    ax.xaxis.set_major_locator(mdates.WeekdayLocator(interval=1))
-    ax.xaxis.set_major_formatter(mdates.DateFormatter("%d.%m."))
+    ax.xaxis.set_major_locator(mdates.MonthLocator() if long_range else mdates.WeekdayLocator(interval=1))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%m/%Y" if long_range else "%d.%m."))
     ax.set_xlim(min(x_values) - timedelta(days=1), max(x_values) + timedelta(days=1))
     ax.grid(axis="y", color="#cfd6df", linewidth=0.8)
     ax.grid(axis="x", color="#e7ebf0", linewidth=0.5)
