@@ -477,8 +477,6 @@ def render_chart(rows: list[DayResult], output_path: Path) -> None:
     low_values = [row.line_low_margin for row in rows]
     long_range = (max(x_values) - min(x_values)).days > 120
     observed_end = max(x_values)
-    future_rebate_visible = date(2026, 9, 1) <= observed_end < date(2027, 1, 1)
-    display_end = date(2027, 1, 1) if future_rebate_visible else observed_end + timedelta(days=1)
 
     plt.rcParams.update(
         {
@@ -510,25 +508,11 @@ def render_chart(rows: list[DayResult], output_path: Path) -> None:
         zorder=0,
     )
 
-    may_onward_gaps = [
-        row.line_high_margin - row.line_low_margin
-        for row in rows
-        if row.day >= date(2026, 5, 1)
-        and row.line_high_margin is not None
-        and row.line_low_margin is not None
-    ]
-    if may_onward_gaps:
-        gap_cents = f"{100 * sum(may_onward_gaps) / len(may_onward_gaps):.1f}".replace(".", ",")
-        title = (
-            f"Diesel: 12-Uhr-Linie liegt seit Mai im Mittel {gap_cents} ct/l über 11 Uhr\n"
-            f"Tankrabatt Mai/Juni berücksichtigt · Messdaten bis {observed_end:%d.%m.%Y}"
-        )
-    else:
-        title = f"Diesel: Betriebskosten und Marge bis {observed_end:%d.%m.%Y}"
+    title = f"Marge im Dieselmarkt bis {observed_end:%d.%m.%Y}"
 
     for period_start, period_end in TANKRABATT_PERIODS:
         boundary_end = period_end + timedelta(days=1)
-        if period_start <= display_end and boundary_end >= min(x_values):
+        if period_start <= observed_end and boundary_end >= min(x_values):
             ax.axvspan(period_start, boundary_end, color="#f59e0b", alpha=0.10, zorder=0.5)
             for boundary in (period_start, boundary_end):
                 ax.axvline(boundary, color="#a16207", linewidth=1.5, zorder=2)
@@ -560,11 +544,6 @@ def render_chart(rows: list[DayResult], output_path: Path) -> None:
         ax.text(date(2026, 5, 31), 0.98, "Tankrabatt 01.05.–30.06.",
                 transform=ax.get_xaxis_transform(), ha="center", va="top",
                 color="#92400e", fontsize=10.5, fontweight="bold")
-    if future_rebate_visible and observed_end < date(2026, 10, 1):
-        ax.text(date(2026, 11, 16), 0.48, "Tankrabatt 01.10.–31.12.\nnoch keine Messdaten",
-                transform=ax.get_xaxis_transform(), ha="center", va="center",
-                color="#92400e", fontsize=11, fontweight="bold")
-
     ax.set_title(
         title,
         fontsize=14.8,
@@ -577,7 +556,7 @@ def render_chart(rows: list[DayResult], output_path: Path) -> None:
     ax.yaxis.set_major_formatter(FuncFormatter(lambda value, _pos: f"{value:.2f}".replace(".", ",")))
     ax.xaxis.set_major_locator(mdates.MonthLocator() if long_range else mdates.WeekdayLocator(interval=1))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m/%Y" if long_range else "%d.%m."))
-    ax.set_xlim(min(x_values) - timedelta(days=1), display_end + timedelta(days=1))
+    ax.set_xlim(min(x_values) - timedelta(days=1), observed_end)
     ax.grid(axis="y", color="#cfd6df", linewidth=0.8)
     ax.grid(axis="x", color="#e7ebf0", linewidth=0.5)
     for spine in ("top", "right"):
