@@ -50,6 +50,11 @@ ECB_FX_HIST_XML_URL = "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.
 
 VAT_RATE = 0.19
 DIESEL_ENERGY_TAX_EUR_PER_LITER = 0.4704
+DIESEL_REDUCED_ENERGY_TAX_EUR_PER_LITER = 0.3300
+TANKRABATT_PERIODS = (
+    (date(2026, 5, 1), date(2026, 6, 30)),
+    (date(2026, 10, 1), date(2026, 12, 31)),
+)
 CO2_PRICE_EUR_PER_TON = 65
 DIESEL_CO2_KG_PER_LITER = 2.627
 EBV_EUR_PER_TON = 3.56
@@ -87,7 +92,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--start-date", type=date.fromisoformat, default=date(2026, 3, 1))
     parser.add_argument("--cutover-date", type=date.fromisoformat, default=date(2026, 4, 1))
     parser.add_argument("--end-date", type=date.fromisoformat, default=date(2026, 4, 30))
-    parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR)
+    parser.add_argument("--input-csv", type=Path, help="Recalculate margins from a prior raw-data CSV")
+    parser.add_argument("--output-dir", type=Path)
     return parser.parse_args()
 
 
@@ -181,13 +187,19 @@ def mean_or_none(values: Iterable[float]) -> float | None:
     return float(sum(usable) / len(usable))
 
 
-def diesel_margin(gross_price: float | None, brent_eur_per_liter: float) -> float | None:
+def diesel_energy_tax(day: date) -> float:
+    if any(start <= day <= end for start, end in TANKRABATT_PERIODS):
+        return DIESEL_REDUCED_ENERGY_TAX_EUR_PER_LITER
+    return DIESEL_ENERGY_TAX_EUR_PER_LITER
+
+
+def diesel_margin(gross_price: float | None, brent_eur_per_liter: float, day: date) -> float | None:
     if gross_price is None or not math.isfinite(gross_price):
         return None
     vat = gross_price - gross_price / (1 + VAT_RATE)
     co2 = (DIESEL_CO2_KG_PER_LITER * CO2_PRICE_EUR_PER_TON) / 1000
     ebv = (EBV_EUR_PER_TON * DIESEL_DENSITY_TON_PER_M3) / 1000
-    regulated = DIESEL_ENERGY_TAX_EUR_PER_LITER + co2 + ebv + vat
+    regulated = diesel_energy_tax(day) + co2 + ebv + vat
     return gross_price - regulated - brent_eur_per_liter
 
 
@@ -376,8 +388,8 @@ def process_day(
         april_11h_mean_gross=april_11h_mean,
         line_high_gross=line_high_gross,
         line_low_gross=line_low_gross,
-        line_high_margin=diesel_margin(line_high_gross, brent.value_eur_per_liter),
-        line_low_margin=diesel_margin(line_low_gross, brent.value_eur_per_liter),
+        line_high_margin=diesel_margin(line_high_gross, brent.value_eur_per_liter, day),
+        line_low_margin=diesel_margin(line_low_gross, brent.value_eur_per_liter, day),
         stations_at_noon=len(noon_fallback_prices or {}),
         station_hours=station_hours,
     )
@@ -388,6 +400,7 @@ def write_csv(rows: list[DayResult], output_path: Path) -> None:
     fieldnames = [
         "datum",
         "brent_eur_l",
+        "energiesteuer_eur_l",
         "brent_as_of",
         "fx_as_of",
         "maerz_tagesmaximum_stundenmittel_bruttopreis_eur_l",
@@ -409,6 +422,7 @@ def write_csv(rows: list[DayResult], output_path: Path) -> None:
                 {
                     "datum": row.day.isoformat(),
                     "brent_eur_l": row.brent_eur_per_liter,
+                    "energiesteuer_eur_l": diesel_energy_tax(row.day),
                     "brent_as_of": row.brent_as_of.isoformat(),
                     "fx_as_of": row.fx_as_of.isoformat(),
                     "maerz_tagesmaximum_stundenmittel_bruttopreis_eur_l": row.march_hourly_max_gross,
@@ -425,11 +439,46 @@ def write_csv(rows: list[DayResult], output_path: Path) -> None:
             )
 
 
+def read_results_csv(input_path: Path) -> list[DayResult]:
+    def optional_float(value: str | None) -> float | None:
+        return float(value) if value else None
+
+    results: list[DayResult] = []
+    with input_path.open(newline="", encoding="utf-8") as handle:
+        for raw in csv.DictReader(handle):
+            day = date.fromisoformat(raw["datum"])
+            brent = float(raw["brent_eur_l"])
+            high_gross = optional_float(raw["linie_oben_bruttopreis_eur_l"])
+            low_gross = optional_float(raw["linie_unten_bruttopreis_eur_l"])
+            results.append(
+                DayResult(
+                    day=day,
+                    brent_eur_per_liter=brent,
+                    brent_as_of=date.fromisoformat(raw["brent_as_of"]),
+                    fx_as_of=date.fromisoformat(raw["fx_as_of"]),
+                    march_hourly_max_gross=optional_float(raw["maerz_tagesmaximum_stundenmittel_bruttopreis_eur_l"]),
+                    march_hourly_min_gross=optional_float(raw["maerz_tagesminimum_stundenmittel_bruttopreis_eur_l"]),
+                    april_noon_anchor_gross=optional_float(raw["april_12uhr_anker_bruttopreis_eur_l"]),
+                    april_11h_mean_gross=optional_float(raw["april_11uhr_stundenmittel_bruttopreis_eur_l"]),
+                    line_high_gross=high_gross,
+                    line_low_gross=low_gross,
+                    line_high_margin=diesel_margin(high_gross, brent, day),
+                    line_low_margin=diesel_margin(low_gross, brent, day),
+                    stations_at_noon=int(raw["stationen_um_12uhr"]),
+                    station_hours=float(raw["stationsstunden"]),
+                )
+            )
+    return results
+
+
 def render_chart(rows: list[DayResult], output_path: Path) -> None:
     x_values = [row.day for row in rows]
     high_values = [row.line_high_margin for row in rows]
     low_values = [row.line_low_margin for row in rows]
     long_range = (max(x_values) - min(x_values)).days > 120
+    observed_end = max(x_values)
+    future_rebate_visible = date(2026, 9, 1) <= observed_end < date(2027, 1, 1)
+    display_end = date(2027, 1, 1) if future_rebate_visible else observed_end + timedelta(days=1)
 
     plt.rcParams.update(
         {
@@ -461,66 +510,28 @@ def render_chart(rows: list[DayResult], output_path: Path) -> None:
         zorder=0,
     )
 
-    def period_mean(values: list[float | None], is_period_day) -> float | None:
-        period_values = [
-            value
-            for day, value in zip(x_values, values)
-            if is_period_day(day) and value is not None and math.isfinite(value)
-        ]
-        if not period_values:
-            return None
-        return sum(period_values) / len(period_values)
+    may_onward_gaps = [
+        row.line_high_margin - row.line_low_margin
+        for row in rows
+        if row.day >= date(2026, 5, 1)
+        and row.line_high_margin is not None
+        and row.line_low_margin is not None
+    ]
+    if may_onward_gaps:
+        gap_cents = f"{100 * sum(may_onward_gaps) / len(may_onward_gaps):.1f}".replace(".", ",")
+        title = (
+            f"Diesel: 12-Uhr-Linie liegt seit Mai im Mittel {gap_cents} ct/l über 11 Uhr\n"
+            f"Tankrabatt Mai/Juni berücksichtigt · Messdaten bis {observed_end:%d.%m.%Y}"
+        )
+    else:
+        title = f"Diesel: Betriebskosten und Marge bis {observed_end:%d.%m.%Y}"
 
-    def relative_delta(april_mean: float | None, march_mean: float | None) -> float | None:
-        if april_mean is None or march_mean is None or abs(march_mean) < 1e-12:
-            return None
-        return ((april_mean / march_mean) - 1) * 100
-
-    def format_percent(value: float | None) -> str:
-        if value is None:
-            return "-"
-        sign = "+" if value > 0 else ""
-        amount = f"{value:.1f}".replace(".", ",")
-        return f"{sign}{amount} %"
-
-    high_march_mean = period_mean(high_values, lambda day: day < cutover)
-    high_april_mean = period_mean(high_values, lambda day: day >= cutover)
-    low_march_mean = period_mean(low_values, lambda day: day < cutover)
-    low_april_mean = period_mean(low_values, lambda day: day >= cutover)
-    high_relative_delta = relative_delta(high_april_mean, high_march_mean)
-    low_relative_delta = relative_delta(low_april_mean, low_march_mean)
-
-    def draw_period_means(
-        march_mean: float | None,
-        april_mean: float | None,
-        color: str,
-        label: str,
-    ) -> None:
-        label_used = False
-        for period_start, period_end, mean_value in (
-            (
-                min(x_values),
-                cutover - timedelta(days=1),
-                march_mean,
-            ),
-            (
-                cutover,
-                max(x_values),
-                april_mean,
-            ),
-        ):
-            if mean_value is None:
-                continue
-            ax.plot(
-                [period_start, period_end],
-                [mean_value, mean_value],
-                color=color,
-                linewidth=2.4,
-                linestyle=":",
-                label=label if not label_used else "_nolegend_",
-                zorder=2.5,
-            )
-            label_used = True
+    for period_start, period_end in TANKRABATT_PERIODS:
+        boundary_end = period_end + timedelta(days=1)
+        if period_start <= display_end and boundary_end >= min(x_values):
+            ax.axvspan(period_start, boundary_end, color="#f59e0b", alpha=0.10, zorder=0.5)
+            for boundary in (period_start, boundary_end):
+                ax.axvline(boundary, color="#a16207", linewidth=1.5, zorder=2)
 
     ax.plot(
         x_values,
@@ -543,26 +554,19 @@ def render_chart(rows: list[DayResult], output_path: Path) -> None:
         zorder=3,
     )
 
-    draw_period_means(
-        high_march_mean,
-        high_april_mean,
-        "#dc2626",
-        "Mittelwerte März/ab April: Max / 12:00-Anker",
-    )
-    draw_period_means(
-        low_march_mean,
-        low_april_mean,
-        "#2563eb",
-        "Mittelwerte März/ab April: Min / 11:00-Mittel",
-    )
-
     ax.axvline(cutover, color="#111827", linewidth=2, linestyle="--")
     ax.text(cutover + timedelta(days=0.4), ax.get_ylim()[1], "01.04. Regelwechsel", color="#111827", va="top")
+    if observed_end >= date(2026, 5, 1):
+        ax.text(date(2026, 5, 31), 0.98, "Tankrabatt 01.05.–30.06.",
+                transform=ax.get_xaxis_transform(), ha="center", va="top",
+                color="#92400e", fontsize=10.5, fontweight="bold")
+    if future_rebate_visible and observed_end < date(2026, 10, 1):
+        ax.text(date(2026, 11, 16), 0.48, "Tankrabatt 01.10.–31.12.\nnoch keine Messdaten",
+                transform=ax.get_xaxis_transform(), ha="center", va="center",
+                color="#92400e", fontsize=11, fontweight="bold")
 
     ax.set_title(
-        f"Diesel: Betriebskosten und Marge bis {max(x_values):%d.%m.%Y}\n"
-        f"Mittelwert ab April gegenüber März: 12-Uhr-Linie {format_percent(high_relative_delta)}, "
-        f"11-Uhr-Linie {format_percent(low_relative_delta)}",
+        title,
         fontsize=14.8,
         fontweight="bold",
         pad=16,
@@ -573,7 +577,7 @@ def render_chart(rows: list[DayResult], output_path: Path) -> None:
     ax.yaxis.set_major_formatter(FuncFormatter(lambda value, _pos: f"{value:.2f}".replace(".", ",")))
     ax.xaxis.set_major_locator(mdates.MonthLocator() if long_range else mdates.WeekdayLocator(interval=1))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m/%Y" if long_range else "%d.%m."))
-    ax.set_xlim(min(x_values) - timedelta(days=1), max(x_values) + timedelta(days=1))
+    ax.set_xlim(min(x_values) - timedelta(days=1), display_end + timedelta(days=1))
     ax.grid(axis="y", color="#cfd6df", linewidth=0.8)
     ax.grid(axis="x", color="#e7ebf0", linewidth=0.5)
     for spine in ("top", "right"):
@@ -585,14 +589,14 @@ def render_chart(rows: list[DayResult], output_path: Path) -> None:
     fig.text(
         0.06,
         0.052,
-        "Quelle: rohe MTS-K Preisdaten; Berechnung: Bruttopreis minus MwSt., Energiesteuer, CO₂-Abgabe, EBV und täglichem Brent-Rohölpreis.",
+        "Quelle: rohe MTS-K-Preisdaten; rechnerischer Rest nach MwSt., Energiesteuer, CO₂-Abgabe, EBV und Brent. Brent/FX fortgeschrieben.",
         fontsize=9.2,
         color="#475569",
     )
     fig.text(
         0.06,
         0.027,
-        "Brent und USD/EUR werden je Kalendertag aus der letzten verfügbaren Beobachtung fortgeschrieben.",
+        "Diesel-Energiesteuer: regulär 47,04 ct/l, im Tankrabatt 33,00 ct/l (01.05.–30.06. und 01.10.–31.12.2026; § 68 EnergieStG).",
         fontsize=9.2,
         color="#475569",
     )
@@ -614,6 +618,8 @@ def write_summary(rows: list[DayResult], output_path: Path) -> None:
                 f"- Zeitraum: {rows[0].day.isoformat()} bis {rows[-1].day.isoformat()}",
                 "- Linie 1: März Tagesmaximum der Stundenmittel, ab April 12:00-Anker",
                 "- Linie 2: März Tagesminimum der Stundenmittel, ab April 11:00-Stundenmittel",
+                "- Diesel-Energiesteuer: regulär 0,4704 €/l; 0,3300 €/l vom 01.05. bis 30.06. und 01.10. bis 31.12.2026 ([§ 68 EnergieStG](https://www.gesetze-im-internet.de/energiestg/__68.html))",
+                "- Die Tageszuordnung modelliert den gesetzlichen Steuersatz; tatsächliche steuerliche Bestände können zeitlich abweichen.",
                 "- Brent: täglicher FRED/EIA-Wert in EUR/l, mit letzter verfügbarer Beobachtung fortgeschrieben",
                 f"- Brent-Spanne: {min(brent_values):.6f} bis {max(brent_values):.6f} €/l",
                 f"- Linie 1 Spanne: {min(high_values):.3f} bis {max(high_values):.3f} €/l",
@@ -627,36 +633,40 @@ def write_summary(rows: list[DayResult], output_path: Path) -> None:
 
 def main() -> None:
     args = parse_args()
-    require_tankerkoenig_credentials()
-    daily_brent = load_daily_brent_values(args.start_date, args.end_date)
+    output_dir = args.output_dir or (args.input_csv.parent if args.input_csv else OUTPUT_DIR)
+    if args.input_csv:
+        results = read_results_csv(args.input_csv)
+    else:
+        require_tankerkoenig_credentials()
+        daily_brent = load_daily_brent_values(args.start_date, args.end_date)
 
-    if args.warmup_start > args.start_date:
-        raise SystemExit("--warmup-start must be on or before --start-date.")
-    if not (args.start_date < args.cutover_date <= args.end_date):
-        raise SystemExit("Expected start_date < cutover_date <= end_date.")
+        if args.warmup_start > args.start_date:
+            raise SystemExit("--warmup-start must be on or before --start-date.")
+        if not (args.start_date < args.cutover_date <= args.end_date):
+            raise SystemExit("Expected start_date < cutover_date <= end_date.")
 
-    state_prices: dict[str, float] = {}
-    results: list[DayResult] = []
-    for day in days_between(args.warmup_start, args.end_date):
-        events = load_diesel_events(day)
-        result = process_day(
-            day,
-            events,
-            state_prices,
-            daily_brent.get(day),
-            args.start_date,
-            args.cutover_date,
-        )
-        if result is not None:
-            results.append(result)
+        state_prices: dict[str, float] = {}
+        results: list[DayResult] = []
+        for day in days_between(args.warmup_start, args.end_date):
+            events = load_diesel_events(day)
+            result = process_day(
+                day,
+                events,
+                state_prices,
+                daily_brent.get(day),
+                args.start_date,
+                args.cutover_date,
+            )
+            if result is not None:
+                results.append(result)
 
     if not results:
         raise SystemExit("No result rows were generated.")
 
-    args.output_dir.mkdir(parents=True, exist_ok=True)
-    csv_path = args.output_dir / "diesel_betriebskosten_marge_rohdatenvergleich.csv"
-    png_path = args.output_dir / "diesel_betriebskosten_marge_rohdatenvergleich.png"
-    summary_path = args.output_dir / "diesel_betriebskosten_marge_rohdatenvergleich.md"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    csv_path = output_dir / "diesel_betriebskosten_marge_rohdatenvergleich.csv"
+    png_path = output_dir / "diesel_betriebskosten_marge_rohdatenvergleich.png"
+    summary_path = output_dir / "diesel_betriebskosten_marge_rohdatenvergleich.md"
     write_csv(results, csv_path)
     render_chart(results, png_path)
     write_summary(results, summary_path)
