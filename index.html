@@ -140,7 +140,7 @@
               <sup>1</sup>
             </span>
             <div class="simple-average">
-              <strong id="simple-median-value">19</strong>
+              <strong id="simple-median-value">–</strong>
               <span>Cent / Liter</span>
             </div>
             <div class="simple-range" aria-label="Beobachtete Ersparnisspanne">
@@ -150,15 +150,16 @@
                   class="simple-average-marker"
                   id="simple-median-marker"
                   title="Median"
+                  hidden
                 ></span>
               </div>
               <div class="simple-range-labels">
                 <span>
-                  <strong id="simple-min-value">0 ct</strong>
+                  <strong id="simple-min-value">–</strong>
                   ganztägig gleich, z. B. Trigema
                 </span>
                 <span>
-                  <strong id="simple-max-value">46 ct</strong>
+                  <strong id="simple-max-value">–</strong>
                   höchster beobachteter Vorteil
                 </span>
               </div>
@@ -166,13 +167,12 @@
           </div>
           <aside class="simple-proof">
             <div>
-              <strong id="simple-confirmation-rate">99,44 %</strong>
+              <strong id="simple-confirmation-rate">–</strong>
               <p id="simple-confirmation-copy">
-                12.686 von 12.758 aktuellen Tankstellen
-                bestätigen 11:00 als günstigsten Zeitraum.
+                Aktuelle Auswertung wird geladen …
               </p>
             </div>
-            <p class="simple-proof-meta" id="simple-audit-meta">
+            <p class="simple-proof-meta" id="simple-audit-meta" role="status">
               Nachtanalyse wird geladen …
             </p>
           </aside>
@@ -195,11 +195,13 @@
             id="simple-histogram"
             role="img"
             aria-label="Histogramm der Ersparnis je Tankstelle"
-          ></div>
+          >
+            <span class="simple-histogram-empty">Verteilung wird geladen …</span>
+          </div>
           <div class="simple-histogram-axis">
-            <span id="simple-histogram-min">0 ct/L</span>
+            <span id="simple-histogram-min">–</span>
             <span>Vorteil gegenüber Vortag 12 Uhr</span>
-            <span id="simple-histogram-max">75 ct/L</span>
+            <span id="simple-histogram-max">–</span>
           </div>
         </div>
         <ol class="simple-stat-notes" id="simple-stat-notes">
@@ -220,6 +222,6 @@
 
     <script src="web-config.js?v=20260725-simple-v1"></script>
     <script src="app-install-promo.js?v=20260729-app-promo-v14"></script>
-    <script src="simple-app.js?v=20260725-simple-v2"></script>
+    <script src="simple-app.js?v=20261001-simple-v3"></script>
   </body>
 </html>

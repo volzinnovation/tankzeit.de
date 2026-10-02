@@ -72,6 +72,8 @@
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
+      // analysis_date is a calendar date, independent of the browser timezone.
+      timeZone: "UTC",
     }).format(new Date(Date.UTC(year, month - 1, day)));
   }
 
@@ -96,6 +98,7 @@
       formatCents(maximum);
     document.getElementById("simple-median-marker").style.left =
       `${Math.min(100, Math.max(0, medianPercent))}%`;
+    document.getElementById("simple-median-marker").hidden = false;
     document.getElementById("simple-confirmation-rate").textContent =
       formatPercent(stats.confirmation_rate);
     document.getElementById("simple-confirmation-copy").textContent =
@@ -178,7 +181,14 @@
       adviceSummary = await fetchFirstJson(adviceUrls);
       renderAdvice(adviceSummary);
     } catch (error) {
+      adviceSummary = null;
       console.warn("Advice summary unavailable", error);
+      document.getElementById("simple-confirmation-copy").textContent =
+        "Aktuelle Auswertung nicht verfügbar.";
+      document.getElementById("simple-histogram").innerHTML =
+        '<span class="simple-histogram-empty">Verteilung nicht verfügbar</span>';
+      document.getElementById("simple-stat-notes").innerHTML =
+        "<li>Median und Verteilungsdetails sind momentan nicht verfügbar.</li>";
       document.getElementById("simple-audit-meta").textContent =
         "Die Nachtanalyse ist momentan nicht erreichbar.";
     }
@@ -186,6 +196,8 @@
 
   function selectAnalysisFuel(nextFuel) {
     analysisFuel = nextFuel;
+    document.getElementById("simple-metric-scope").textContent =
+      fuelLabels[analysisFuel];
     document.querySelectorAll(".simple-analysis-fuel").forEach((button) => {
       const active = button.dataset.analysisFuel === analysisFuel;
       button.classList.toggle("is-active", active);
