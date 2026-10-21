@@ -179,7 +179,11 @@ def export(start_day: date, end_day: date, output_path: Path) -> None:
         }
         archive.writestr("manifest.json", json.dumps(manifest, indent=2) + "\n")
 
-    print(json.dumps(manifest, indent=2), flush=True)
+    print(
+        f"Export complete: {included_days} price files, {missing_days} missing files, "
+        f"{len(uuids)} selected stations.",
+        flush=True,
+    )
     print(f"Wrote {output_path} ({output_path.stat().st_size:,} bytes).", flush=True)
 
 
