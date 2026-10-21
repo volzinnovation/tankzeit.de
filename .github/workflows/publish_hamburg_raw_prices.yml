@@ -1,0 +1,30 @@
+name: Publish Hamburg raw prices
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  export-and-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      TK_USER: ${{ secrets.TK_USER }}
+      TK_PASS: ${{ secrets.TK_PASS }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Export filtered historical raw prices
+        run: python scripts/export_hamburg_raw_prices.py
+
+      - name: Publish public release
+        run: |
+          TAG="raw-prices-plz-21000-21499-through-2026-03-31"
+          gh release create "$TAG" \
+            hamburg-raw-prices-2026-03-31.zip \
+            --title "Rohdaten PLZ 21000–21499 bis 31.03.2026" \
+            --notes "Auszug der Tankerkönig-Rohpreisdaten für Tankstellen mit PLZ 21000–21499. Stationsauswahl anhand des Stationsbestands vom 31.03.2026. Enthält manifest.json mit Abdeckungsangaben."
