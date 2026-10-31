@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "status": "strong_signal",
-  "analysis_date": "2026-10-29",
+  "analysis_date": "2026-10-30",
   "cycle": {
-    "start": "2026-10-28T12:00:00+01:00",
-    "end": "2026-10-29T11:59:59+01:00",
+    "start": "2026-10-29T12:00:00+01:00",
+    "end": "2026-10-30T11:59:59+01:00",
     "timezone": "Europe/Berlin"
   },
   "advice_window": {
@@ -12,91 +12,91 @@
     "end": "11:59",
     "label": "11:00–11:59 Uhr"
   },
-  "generated_at": "2026-10-30T03:26:00+01:00",
+  "generated_at": "2026-10-31T03:43:17+01:00",
   "overall": {
-    "eligible_station_fuels": 36195,
-    "confirmed_station_fuels": 36132,
-    "exception_station_fuels": 63,
-    "confirmation_rate": 0.998259,
-    "flat_profiles_inferred": 347,
-    "excluded_station_fuels": 13917,
+    "eligible_station_fuels": 33810,
+    "confirmed_station_fuels": 33764,
+    "exception_station_fuels": 46,
+    "confirmation_rate": 0.998639,
+    "flat_profiles_inferred": 337,
+    "excluded_station_fuels": 16302,
     "excluded_by_reason": {
-      "invalid_price": 957,
-      "missing_cycle": 7173,
-      "stale_profile": 5787
+      "invalid_price": 816,
+      "missing_cycle": 9684,
+      "stale_profile": 5802
     },
     "savings_eur_per_liter": {
       "minimum": 0.0,
-      "average": 0.251,
+      "average": 0.247,
       "median": 0.26,
       "p95": 0.34,
-      "maximum": 0.54
+      "maximum": 0.521
     }
   },
   "savings_distributions": {
     "all": {
       "grain": "station_fuel",
-      "sample_size": 36195,
+      "sample_size": 33810,
       "bin_width_eur_per_liter": 0.05,
       "bins": [
         {
           "lower": 0.0,
           "upper": 0.05,
-          "count": 1059,
+          "count": 1012,
           "includes_upper": false
         },
         {
           "lower": 0.05,
           "upper": 0.1,
-          "count": 579,
+          "count": 588,
           "includes_upper": false
         },
         {
           "lower": 0.1,
           "upper": 0.15,
-          "count": 1797,
+          "count": 1552,
           "includes_upper": false
         },
         {
           "lower": 0.15,
           "upper": 0.2,
-          "count": 2968,
+          "count": 3045,
           "includes_upper": false
         },
         {
           "lower": 0.2,
           "upper": 0.25,
-          "count": 7294,
+          "count": 7330,
           "includes_upper": false
         },
         {
           "lower": 0.25,
           "upper": 0.3,
-          "count": 13999,
+          "count": 13217,
           "includes_upper": false
         },
         {
           "lower": 0.3,
           "upper": 0.35,
-          "count": 6890,
+          "count": 5776,
           "includes_upper": false
         },
         {
           "lower": 0.35,
           "upper": 0.4,
-          "count": 1531,
+          "count": 1167,
           "includes_upper": false
         },
         {
           "lower": 0.4,
           "upper": 0.45,
-          "count": 52,
+          "count": 90,
           "includes_upper": false
         },
         {
           "lower": 0.45,
           "upper": 0.5,
-          "count": 15,
+          "count": 22,
           "includes_upper": false
         },
         {
@@ -108,229 +108,229 @@
       ],
       "savings_eur_per_liter": {
         "minimum": 0.0,
-        "average": 0.251,
+        "average": 0.247,
         "median": 0.26,
         "p95": 0.34,
-        "maximum": 0.54
+        "maximum": 0.521
       }
     },
     "diesel": {
       "grain": "station",
-      "sample_size": 12393,
+      "sample_size": 11543,
       "bin_width_eur_per_liter": 0.05,
       "bins": [
         {
           "lower": 0.0,
           "upper": 0.05,
-          "count": 349,
+          "count": 352,
           "includes_upper": false
         },
         {
           "lower": 0.05,
           "upper": 0.1,
-          "count": 146,
+          "count": 160,
           "includes_upper": false
         },
         {
           "lower": 0.1,
           "upper": 0.15,
-          "count": 606,
+          "count": 538,
           "includes_upper": false
         },
         {
           "lower": 0.15,
           "upper": 0.2,
-          "count": 1077,
+          "count": 1288,
           "includes_upper": false
         },
         {
           "lower": 0.2,
           "upper": 0.25,
-          "count": 3394,
+          "count": 3765,
           "includes_upper": false
         },
         {
           "lower": 0.25,
           "upper": 0.3,
-          "count": 6236,
+          "count": 4858,
           "includes_upper": false
         },
         {
           "lower": 0.3,
           "upper": 0.35,
-          "count": 501,
+          "count": 490,
           "includes_upper": false
         },
         {
           "lower": 0.35,
           "upper": 0.4,
-          "count": 74,
+          "count": 81,
           "includes_upper": false
         },
         {
           "lower": 0.4,
           "upper": 0.45,
-          "count": 3,
+          "count": 4,
           "includes_upper": false
         },
         {
           "lower": 0.45,
           "upper": 0.5,
-          "count": 2,
+          "count": 5,
           "includes_upper": false
         },
         {
           "lower": 0.5,
           "upper": 0.55,
-          "count": 5,
+          "count": 2,
           "includes_upper": true
         }
       ],
       "savings_eur_per_liter": {
         "minimum": 0.0,
-        "average": 0.235,
-        "median": 0.25,
+        "average": 0.23,
+        "median": 0.24,
         "p95": 0.3,
-        "maximum": 0.54
+        "maximum": 0.521
       }
     },
     "e10": {
       "grain": "station",
-      "sample_size": 11661,
+      "sample_size": 10926,
       "bin_width_eur_per_liter": 0.05,
       "bins": [
         {
           "lower": 0.0,
           "upper": 0.05,
-          "count": 310,
+          "count": 288,
           "includes_upper": false
         },
         {
           "lower": 0.05,
           "upper": 0.1,
-          "count": 206,
+          "count": 225,
           "includes_upper": false
         },
         {
           "lower": 0.1,
           "upper": 0.15,
-          "count": 573,
+          "count": 488,
           "includes_upper": false
         },
         {
           "lower": 0.15,
           "upper": 0.2,
-          "count": 993,
+          "count": 887,
           "includes_upper": false
         },
         {
           "lower": 0.2,
           "upper": 0.25,
-          "count": 1877,
+          "count": 1768,
           "includes_upper": false
         },
         {
           "lower": 0.25,
           "upper": 0.3,
-          "count": 3867,
+          "count": 4093,
           "includes_upper": false
         },
         {
           "lower": 0.3,
           "upper": 0.35,
-          "count": 3206,
+          "count": 2625,
           "includes_upper": false
         },
         {
           "lower": 0.35,
           "upper": 0.4,
-          "count": 595,
+          "count": 495,
           "includes_upper": false
         },
         {
           "lower": 0.4,
           "upper": 0.45,
-          "count": 24,
+          "count": 42,
           "includes_upper": false
         },
         {
           "lower": 0.45,
           "upper": 0.5,
-          "count": 7,
+          "count": 11,
           "includes_upper": false
         },
         {
           "lower": 0.5,
           "upper": 0.55,
-          "count": 3,
+          "count": 4,
           "includes_upper": true
         }
       ],
       "savings_eur_per_liter": {
         "minimum": 0.0,
-        "average": 0.259,
-        "median": 0.28,
+        "average": 0.257,
+        "median": 0.27,
         "p95": 0.35,
-        "maximum": 0.54
+        "maximum": 0.51
       }
     },
     "e5": {
       "grain": "station",
-      "sample_size": 12141,
+      "sample_size": 11341,
       "bin_width_eur_per_liter": 0.05,
       "bins": [
         {
           "lower": 0.0,
           "upper": 0.05,
-          "count": 400,
+          "count": 372,
           "includes_upper": false
         },
         {
           "lower": 0.05,
           "upper": 0.1,
-          "count": 227,
+          "count": 203,
           "includes_upper": false
         },
         {
           "lower": 0.1,
           "upper": 0.15,
-          "count": 618,
+          "count": 526,
           "includes_upper": false
         },
         {
           "lower": 0.15,
           "upper": 0.2,
-          "count": 898,
+          "count": 870,
           "includes_upper": false
         },
         {
           "lower": 0.2,
           "upper": 0.25,
-          "count": 2023,
+          "count": 1797,
           "includes_upper": false
         },
         {
           "lower": 0.25,
           "upper": 0.3,
-          "count": 3896,
+          "count": 4266,
           "includes_upper": false
         },
         {
           "lower": 0.3,
           "upper": 0.35,
-          "count": 3183,
+          "count": 2661,
           "includes_upper": false
         },
         {
           "lower": 0.35,
           "upper": 0.4,
-          "count": 862,
+          "count": 591,
           "includes_upper": false
         },
         {
           "lower": 0.4,
           "upper": 0.45,
-          "count": 25,
+          "count": 44,
           "includes_upper": false
         },
         {
@@ -342,117 +342,135 @@
         {
           "lower": 0.5,
           "upper": 0.55,
-          "count": 3,
+          "count": 5,
           "includes_upper": true
         }
       ],
       "savings_eur_per_liter": {
         "minimum": 0.0,
-        "average": 0.258,
-        "median": 0.28,
+        "average": 0.256,
+        "median": 0.27,
         "p95": 0.35,
-        "maximum": 0.54
+        "maximum": 0.52
       }
     }
   },
   "fuels": {
     "diesel": {
-      "eligible_station_fuels": 12393,
-      "confirmed_station_fuels": 12381,
-      "exception_station_fuels": 12,
-      "confirmation_rate": 0.999032,
-      "flat_profiles_inferred": 133,
-      "excluded_station_fuels": 4311,
+      "eligible_station_fuels": 11543,
+      "confirmed_station_fuels": 11529,
+      "exception_station_fuels": 14,
+      "confirmation_rate": 0.998787,
+      "flat_profiles_inferred": 110,
+      "excluded_station_fuels": 5161,
       "excluded_by_reason": {
-        "invalid_price": 7,
-        "missing_cycle": 2375,
-        "stale_profile": 1929
+        "invalid_price": 1,
+        "missing_cycle": 3226,
+        "stale_profile": 1934
       },
       "savings_eur_per_liter": {
         "minimum": 0.0,
-        "average": 0.235,
-        "median": 0.25,
+        "average": 0.23,
+        "median": 0.24,
         "p95": 0.3,
-        "maximum": 0.54
+        "maximum": 0.521
       }
     },
     "e10": {
-      "eligible_station_fuels": 11661,
-      "confirmed_station_fuels": 11637,
-      "exception_station_fuels": 24,
-      "confirmation_rate": 0.997942,
-      "flat_profiles_inferred": 89,
-      "excluded_station_fuels": 5043,
+      "eligible_station_fuels": 10926,
+      "confirmed_station_fuels": 10910,
+      "exception_station_fuels": 16,
+      "confirmation_rate": 0.998536,
+      "flat_profiles_inferred": 99,
+      "excluded_station_fuels": 5778,
       "excluded_by_reason": {
-        "invalid_price": 694,
-        "missing_cycle": 2420,
-        "stale_profile": 1929
+        "invalid_price": 602,
+        "missing_cycle": 3242,
+        "stale_profile": 1934
       },
       "savings_eur_per_liter": {
         "minimum": 0.0,
-        "average": 0.259,
-        "median": 0.28,
+        "average": 0.257,
+        "median": 0.27,
         "p95": 0.35,
-        "maximum": 0.54
+        "maximum": 0.51
       }
     },
     "e5": {
-      "eligible_station_fuels": 12141,
-      "confirmed_station_fuels": 12114,
-      "exception_station_fuels": 27,
-      "confirmation_rate": 0.997776,
-      "flat_profiles_inferred": 125,
-      "excluded_station_fuels": 4563,
+      "eligible_station_fuels": 11341,
+      "confirmed_station_fuels": 11325,
+      "exception_station_fuels": 16,
+      "confirmation_rate": 0.998589,
+      "flat_profiles_inferred": 128,
+      "excluded_station_fuels": 5363,
       "excluded_by_reason": {
-        "invalid_price": 256,
-        "missing_cycle": 2378,
-        "stale_profile": 1929
+        "invalid_price": 213,
+        "missing_cycle": 3216,
+        "stale_profile": 1934
       },
       "savings_eur_per_liter": {
         "minimum": 0.0,
-        "average": 0.258,
-        "median": 0.28,
+        "average": 0.256,
+        "median": 0.27,
         "p95": 0.35,
-        "maximum": 0.54
+        "maximum": 0.52
       }
     }
   },
   "top_savings": [
     {
+      "station_uuid": "f7274d4a-8df1-4394-bc1b-117743f87582",
+      "name": "Sack-Schöningen",
+      "brand": "M1",
+      "city": "Schöningen",
+      "fuel": "diesel",
+      "fuel_label": "Diesel",
+      "saving_eur_per_liter": 0.521
+    },
+    {
+      "station_uuid": "105a1954-d44b-408d-b7d2-56f3d44c1c67",
+      "name": "Tankport Süd Josef Schlosser",
+      "brand": "Tankport Süd",
+      "city": "Stadtallendorf",
+      "fuel": "e5",
+      "fuel_label": "E5",
+      "saving_eur_per_liter": 0.52
+    },
+    {
       "station_uuid": "2cc234d1-49a2-461a-ad23-7cf6f509c3eb",
       "name": "Bühler Tank & Wasch GmbH",
       "brand": "BfT",
       "city": "Schramberg",
-      "fuel": "diesel",
-      "fuel_label": "Diesel",
-      "saving_eur_per_liter": 0.54
+      "fuel": "e5",
+      "fuel_label": "E5",
+      "saving_eur_per_liter": 0.51
     },
     {
       "station_uuid": "0ec02f81-8d47-439f-aa71-71eac408ff93",
       "name": "Bühler Tank & Wasch GmbH",
       "brand": "BfT",
       "city": "Schramberg",
-      "fuel": "diesel",
-      "fuel_label": "Diesel",
-      "saving_eur_per_liter": 0.54
-    },
-    {
-      "station_uuid": "d1393a2b-5967-41f0-ae4c-811c047d8f89",
-      "name": "TotalEnergies Demminer Land",
-      "brand": "TotalEnergies",
-      "city": "Voelschow",
-      "fuel": "e10",
-      "fuel_label": "E10",
-      "saving_eur_per_liter": 0.54
-    },
-    {
-      "station_uuid": "d1393a2b-5967-41f0-ae4c-811c047d8f89",
-      "name": "TotalEnergies Demminer Land",
-      "brand": "TotalEnergies",
-      "city": "Voelschow",
       "fuel": "e5",
       "fuel_label": "E5",
-      "saving_eur_per_liter": 0.54
+      "saving_eur_per_liter": 0.51
+    },
+    {
+      "station_uuid": "2cc234d1-49a2-461a-ad23-7cf6f509c3eb",
+      "name": "Bühler Tank & Wasch GmbH",
+      "brand": "BfT",
+      "city": "Schramberg",
+      "fuel": "e10",
+      "fuel_label": "E10",
+      "saving_eur_per_liter": 0.51
+    },
+    {
+      "station_uuid": "0ec02f81-8d47-439f-aa71-71eac408ff93",
+      "name": "Bühler Tank & Wasch GmbH",
+      "brand": "BfT",
+      "city": "Schramberg",
+      "fuel": "e10",
+      "fuel_label": "E10",
+      "saving_eur_per_liter": 0.51
     },
     {
       "station_uuid": "67775b46-5582-440d-9b42-3bc6e920ab90",
@@ -461,375 +479,183 @@
       "city": "Parsau",
       "fuel": "diesel",
       "fuel_label": "Diesel",
-      "saving_eur_per_liter": 0.521
-    },
-    {
-      "station_uuid": "2cc234d1-49a2-461a-ad23-7cf6f509c3eb",
-      "name": "Bühler Tank & Wasch GmbH",
-      "brand": "BfT",
-      "city": "Schramberg",
-      "fuel": "e10",
-      "fuel_label": "E10",
-      "saving_eur_per_liter": 0.52
-    },
-    {
-      "station_uuid": "0ec02f81-8d47-439f-aa71-71eac408ff93",
-      "name": "Bühler Tank & Wasch GmbH",
-      "brand": "BfT",
-      "city": "Schramberg",
-      "fuel": "e10",
-      "fuel_label": "E10",
-      "saving_eur_per_liter": 0.52
-    },
-    {
-      "station_uuid": "2cc234d1-49a2-461a-ad23-7cf6f509c3eb",
-      "name": "Bühler Tank & Wasch GmbH",
-      "brand": "BfT",
-      "city": "Schramberg",
-      "fuel": "e5",
-      "fuel_label": "E5",
-      "saving_eur_per_liter": 0.52
-    },
-    {
-      "station_uuid": "0ec02f81-8d47-439f-aa71-71eac408ff93",
-      "name": "Bühler Tank & Wasch GmbH",
-      "brand": "BfT",
-      "city": "Schramberg",
-      "fuel": "e5",
-      "fuel_label": "E5",
-      "saving_eur_per_liter": 0.52
-    },
-    {
-      "station_uuid": "f7274d4a-8df1-4394-bc1b-117743f87582",
-      "name": "Sack-Schöningen",
-      "brand": "M1",
-      "city": "Schöningen",
-      "fuel": "diesel",
-      "fuel_label": "Diesel",
       "saving_eur_per_liter": 0.501
+    },
+    {
+      "station_uuid": "158c8542-5474-47d4-a4b5-13a7fcf454c8",
+      "name": "TotalEnergies Pforzheim Sahan",
+      "brand": "TotalEnergies",
+      "city": "Pforzheim",
+      "fuel": "e10",
+      "fuel_label": "E10",
+      "saving_eur_per_liter": 0.5
+    },
+    {
+      "station_uuid": "158c8542-5474-47d4-a4b5-13a7fcf454c8",
+      "name": "TotalEnergies Pforzheim Sahan",
+      "brand": "TotalEnergies",
+      "city": "Pforzheim",
+      "fuel": "e5",
+      "fuel_label": "E5",
+      "saving_eur_per_liter": 0.5
+    },
+    {
+      "station_uuid": "d1393a2b-5967-41f0-ae4c-811c047d8f89",
+      "name": "TotalEnergies Demminer Land",
+      "brand": "TotalEnergies",
+      "city": "Voelschow",
+      "fuel": "e10",
+      "fuel_label": "E10",
+      "saving_eur_per_liter": 0.5
     }
   ],
   "exceptions": [
     {
-      "station_uuid": "97432123-0ccf-4c77-b7d0-7e1ee8fce77e",
-      "fuel": "diesel",
-      "raw_saving_eur_per_liter": -0.17,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "e1a15081-259b-9107-e040-0b0a3dfe563c",
-      "fuel": "e5",
-      "raw_saving_eur_per_liter": -0.16,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "e1a15081-259b-9107-e040-0b0a3dfe563c",
-      "fuel": "e10",
-      "raw_saving_eur_per_liter": -0.16,
-      "best_hour": 12
-    },
-    {
       "station_uuid": "57a8a929-175c-4cbe-86f7-834646e33f0d",
       "fuel": "e5",
-      "raw_saving_eur_per_liter": -0.08,
+      "raw_saving_eur_per_liter": -0.07,
       "best_hour": 12
     },
     {
       "station_uuid": "57a8a929-175c-4cbe-86f7-834646e33f0d",
       "fuel": "e10",
-      "raw_saving_eur_per_liter": -0.06,
+      "raw_saving_eur_per_liter": -0.05,
       "best_hour": 12
     },
     {
-      "station_uuid": "57a8a929-175c-4cbe-86f7-834646e33f0d",
+      "station_uuid": "df0fca38-2fb3-4abe-bcc7-b5b9e3448e31",
       "fuel": "diesel",
       "raw_saving_eur_per_liter": -0.04,
       "best_hour": 12
     },
     {
-      "station_uuid": "00060476-9664-4444-8888-acdc00000001",
+      "station_uuid": "3a7013d0-6566-4c9d-ab0a-3536a80d9828",
       "fuel": "e10",
       "raw_saving_eur_per_liter": -0.04,
       "best_hour": 12
     },
     {
-      "station_uuid": "a384ec8a-16b2-4135-a97f-093220ac5e57",
-      "fuel": "e10",
-      "raw_saving_eur_per_liter": -0.04,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "8c4f4da3-838a-4e26-8448-81e642e85954",
-      "fuel": "e10",
-      "raw_saving_eur_per_liter": -0.04,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "00060476-9664-4444-8888-acdc00000001",
+      "station_uuid": "3a7013d0-6566-4c9d-ab0a-3536a80d9828",
       "fuel": "e5",
       "raw_saving_eur_per_liter": -0.04,
       "best_hour": 12
     },
     {
-      "station_uuid": "a384ec8a-16b2-4135-a97f-093220ac5e57",
-      "fuel": "e5",
-      "raw_saving_eur_per_liter": -0.04,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "8c4f4da3-838a-4e26-8448-81e642e85954",
-      "fuel": "e5",
-      "raw_saving_eur_per_liter": -0.04,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "ba73c74d-3e21-4046-b418-15018b73c9bc",
+      "station_uuid": "798eefb5-e7dd-4fb8-a6b4-ba3690c202fe",
       "fuel": "diesel",
       "raw_saving_eur_per_liter": -0.03,
       "best_hour": 12
     },
     {
-      "station_uuid": "471b9ae0-70b4-4909-a447-8c0aaceb9f06",
-      "fuel": "e10",
-      "raw_saving_eur_per_liter": -0.03,
+      "station_uuid": "452a58be-be31-463b-ab33-0fcaab308df9",
+      "fuel": "diesel",
+      "raw_saving_eur_per_liter": -0.02,
       "best_hour": 12
     },
     {
-      "station_uuid": "e6dc250c-c6b3-4320-80c7-8ec25be4f703",
+      "station_uuid": "31ffa8e7-38ed-4ba9-b449-52a4be4b4625",
+      "fuel": "diesel",
+      "raw_saving_eur_per_liter": -0.02,
+      "best_hour": 12
+    },
+    {
+      "station_uuid": "df0fca38-2fb3-4abe-bcc7-b5b9e3448e31",
+      "fuel": "e10",
+      "raw_saving_eur_per_liter": -0.02,
+      "best_hour": 12
+    },
+    {
+      "station_uuid": "0da4b3e1-ed6f-4bae-c71c-d3c9e0bf2470",
+      "fuel": "e10",
+      "raw_saving_eur_per_liter": -0.02,
+      "best_hour": 12
+    },
+    {
+      "station_uuid": "7170da8b-7c52-4af4-bed3-90f5c3ac3e9a",
+      "fuel": "e10",
+      "raw_saving_eur_per_liter": -0.02,
+      "best_hour": 12
+    },
+    {
+      "station_uuid": "76118081-d597-4dfc-9e88-77dfce2187f3",
+      "fuel": "e10",
+      "raw_saving_eur_per_liter": -0.02,
+      "best_hour": 12
+    },
+    {
+      "station_uuid": "00060029-0003-4444-8888-acdc00000003",
       "fuel": "e5",
-      "raw_saving_eur_per_liter": -0.03,
+      "raw_saving_eur_per_liter": -0.02,
       "best_hour": 12
     },
     {
-      "station_uuid": "471b9ae0-70b4-4909-a447-8c0aaceb9f06",
+      "station_uuid": "df0fca38-2fb3-4abe-bcc7-b5b9e3448e31",
       "fuel": "e5",
-      "raw_saving_eur_per_liter": -0.03,
+      "raw_saving_eur_per_liter": -0.02,
       "best_hour": 12
     },
     {
-      "station_uuid": "7b58acc4-a24d-4b4e-8c4c-759ae26fb316",
+      "station_uuid": "0da4b3e1-ed6f-4bae-c71c-d3c9e0bf2470",
       "fuel": "e5",
-      "raw_saving_eur_per_liter": -0.03,
+      "raw_saving_eur_per_liter": -0.02,
       "best_hour": 12
     },
     {
-      "station_uuid": "2cf7753d-b6e8-4d41-95c3-8038e19a0e65",
-      "fuel": "e10",
-      "raw_saving_eur_per_liter": -0.03,
+      "station_uuid": "48cb808b-e5e1-45ab-bf45-13bc3684f54f",
+      "fuel": "e5",
+      "raw_saving_eur_per_liter": -0.02,
       "best_hour": 12
     },
     {
-      "station_uuid": "e6dc250c-c6b3-4320-80c7-8ec25be4f703",
-      "fuel": "e10",
-      "raw_saving_eur_per_liter": -0.03,
+      "station_uuid": "7170da8b-7c52-4af4-bed3-90f5c3ac3e9a",
+      "fuel": "e5",
+      "raw_saving_eur_per_liter": -0.02,
       "best_hour": 12
     },
     {
-      "station_uuid": "7b58acc4-a24d-4b4e-8c4c-759ae26fb316",
+      "station_uuid": "76118081-d597-4dfc-9e88-77dfce2187f3",
+      "fuel": "e5",
+      "raw_saving_eur_per_liter": -0.02,
+      "best_hour": 12
+    },
+    {
+      "station_uuid": "9e84909e-d363-46a8-a1c7-a52a6c21744e",
+      "fuel": "e5",
+      "raw_saving_eur_per_liter": -0.02,
+      "best_hour": 12
+    },
+    {
+      "station_uuid": "9e84909e-d363-46a8-a1c7-a52a6c21744e",
       "fuel": "e10",
-      "raw_saving_eur_per_liter": -0.03,
+      "raw_saving_eur_per_liter": -0.02,
+      "best_hour": 12
+    },
+    {
+      "station_uuid": "6340f935-ec62-44c4-a0a8-a89badf908a4",
+      "fuel": "e10",
+      "raw_saving_eur_per_liter": -0.02,
       "best_hour": 12
     },
     {
       "station_uuid": "00060220-0001-4444-8888-acdc00000001",
       "fuel": "e5",
-      "raw_saving_eur_per_liter": -0.03,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "00060015-0090-4444-8888-acdc00000090",
-      "fuel": "e10",
-      "raw_saving_eur_per_liter": -0.03,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "00060015-0090-4444-8888-acdc00000090",
-      "fuel": "e5",
-      "raw_saving_eur_per_liter": -0.03,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "2cf7753d-b6e8-4d41-95c3-8038e19a0e65",
-      "fuel": "e5",
-      "raw_saving_eur_per_liter": -0.03,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "6340f935-ec62-44c4-a0a8-a89badf908a4",
-      "fuel": "diesel",
       "raw_saving_eur_per_liter": -0.02,
       "best_hour": 12
     },
     {
-      "station_uuid": "aa29ee35-107d-4593-986d-64e20f212b9e",
-      "fuel": "e10",
-      "raw_saving_eur_per_liter": -0.02,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "747cf8ae-2d0d-4825-9746-a47a6cdd9dbe",
-      "fuel": "e10",
-      "raw_saving_eur_per_liter": -0.02,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "76118081-d597-4dfc-9e88-77dfce2187f3",
-      "fuel": "e10",
-      "raw_saving_eur_per_liter": -0.02,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "6340f935-ec62-44c4-a0a8-a89badf908a4",
-      "fuel": "e10",
-      "raw_saving_eur_per_liter": -0.02,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "aa29ee35-107d-4593-986d-64e20f212b9e",
-      "fuel": "e5",
-      "raw_saving_eur_per_liter": -0.02,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "76118081-d597-4dfc-9e88-77dfce2187f3",
-      "fuel": "e5",
-      "raw_saving_eur_per_liter": -0.02,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "6340f935-ec62-44c4-a0a8-a89badf908a4",
-      "fuel": "e5",
-      "raw_saving_eur_per_liter": -0.02,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "f159f0df-f339-411d-9ff9-26901800929b",
-      "fuel": "diesel",
-      "raw_saving_eur_per_liter": -0.014,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "89f651e8-681a-476a-80e2-9e3c983c221d",
+      "station_uuid": "4e070b04-cb1e-4959-b2e7-f50af9d1e8de",
       "fuel": "diesel",
       "raw_saving_eur_per_liter": -0.01,
       "best_hour": 12
     },
     {
-      "station_uuid": "747cf8ae-2d0d-4825-9746-a47a6cdd9dbe",
+      "station_uuid": "48cb808b-e5e1-45ab-bf45-13bc3684f54f",
       "fuel": "diesel",
-      "raw_saving_eur_per_liter": -0.01,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "76118081-d597-4dfc-9e88-77dfce2187f3",
-      "fuel": "diesel",
-      "raw_saving_eur_per_liter": -0.01,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "084c2424-4397-4365-9987-d383a968959c",
-      "fuel": "e10",
       "raw_saving_eur_per_liter": -0.01,
       "best_hour": 12
     },
     {
       "station_uuid": "5636f0d2-b7e5-4f26-a6e8-c667194a71d8",
-      "fuel": "e10",
-      "raw_saving_eur_per_liter": -0.01,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "471566ff-56ac-468a-b8b1-6a8dcaae008e",
-      "fuel": "e10",
-      "raw_saving_eur_per_liter": -0.01,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "97432123-0ccf-4c77-b7d0-7e1ee8fce77e",
-      "fuel": "e5",
-      "raw_saving_eur_per_liter": -0.01,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "00060942-3e53-4444-8888-acdc00000001",
-      "fuel": "e5",
-      "raw_saving_eur_per_liter": -0.01,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "084c2424-4397-4365-9987-d383a968959c",
-      "fuel": "e5",
-      "raw_saving_eur_per_liter": -0.01,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "747cf8ae-2d0d-4825-9746-a47a6cdd9dbe",
-      "fuel": "e5",
-      "raw_saving_eur_per_liter": -0.01,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "6b2dc349-6e5b-435a-b855-bf1f1408999e",
-      "fuel": "e5",
-      "raw_saving_eur_per_liter": -0.01,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "471566ff-56ac-468a-b8b1-6a8dcaae008e",
-      "fuel": "e5",
-      "raw_saving_eur_per_liter": -0.01,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "3134eeab-978b-41a6-bb8e-4f01c9cd9838",
-      "fuel": "e5",
-      "raw_saving_eur_per_liter": -0.01,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "fe9366e1-9913-4cdd-86de-08554a39b69f",
-      "fuel": "e10",
-      "raw_saving_eur_per_liter": -0.01,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "3e36fc01-6943-4caf-9839-16791f2f7f94",
-      "fuel": "e10",
-      "raw_saving_eur_per_liter": -0.01,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "6b2dc349-6e5b-435a-b855-bf1f1408999e",
-      "fuel": "e10",
-      "raw_saving_eur_per_liter": -0.01,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "3134eeab-978b-41a6-bb8e-4f01c9cd9838",
-      "fuel": "e10",
-      "raw_saving_eur_per_liter": -0.01,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "fe9366e1-9913-4cdd-86de-08554a39b69f",
-      "fuel": "e5",
-      "raw_saving_eur_per_liter": -0.01,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "3e36fc01-6943-4caf-9839-16791f2f7f94",
-      "fuel": "e5",
-      "raw_saving_eur_per_liter": -0.01,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "00060942-3e53-4444-8888-acdc00000001",
-      "fuel": "diesel",
-      "raw_saving_eur_per_liter": -0.01,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "e6dc250c-c6b3-4320-80c7-8ec25be4f703",
       "fuel": "diesel",
       "raw_saving_eur_per_liter": -0.01,
       "best_hour": 12
@@ -841,52 +667,124 @@
       "best_hour": 12
     },
     {
-      "station_uuid": "00060613-0004-4444-8888-acdc00000004",
-      "fuel": "e10",
-      "raw_saving_eur_per_liter": -0.01,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "97432123-0ccf-4c77-b7d0-7e1ee8fce77e",
-      "fuel": "e10",
-      "raw_saving_eur_per_liter": -0.01,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "00060613-0004-4444-8888-acdc00000004",
-      "fuel": "e5",
-      "raw_saving_eur_per_liter": -0.01,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "f159f0df-f339-411d-9ff9-26901800929b",
-      "fuel": "e5",
-      "raw_saving_eur_per_liter": -0.004,
-      "best_hour": 12
-    },
-    {
-      "station_uuid": "cc04628a-674a-4b3b-8f58-70943806eeb5",
+      "station_uuid": "00060066-ad70-4444-8888-acdc00000001",
       "fuel": "diesel",
-      "raw_saving_eur_per_liter": 0.16,
-      "best_hour": 1
+      "raw_saving_eur_per_liter": -0.01,
+      "best_hour": 12
     },
     {
-      "station_uuid": "cc04628a-674a-4b3b-8f58-70943806eeb5",
+      "station_uuid": "00060220-0001-4444-8888-acdc00000001",
+      "fuel": "diesel",
+      "raw_saving_eur_per_liter": -0.01,
+      "best_hour": 12
+    },
+    {
+      "station_uuid": "89f651e8-681a-476a-80e2-9e3c983c221d",
       "fuel": "e10",
-      "raw_saving_eur_per_liter": 0.15,
-      "best_hour": 1
+      "raw_saving_eur_per_liter": -0.01,
+      "best_hour": 12
     },
     {
-      "station_uuid": "cc04628a-674a-4b3b-8f58-70943806eeb5",
+      "station_uuid": "89f651e8-681a-476a-80e2-9e3c983c221d",
       "fuel": "e5",
-      "raw_saving_eur_per_liter": 0.15,
-      "best_hour": 1
+      "raw_saving_eur_per_liter": -0.01,
+      "best_hour": 12
     },
     {
-      "station_uuid": "bedf6b51-458a-4180-8324-8c5ab374ddc4",
+      "station_uuid": "00060029-0003-4444-8888-acdc00000003",
+      "fuel": "e10",
+      "raw_saving_eur_per_liter": -0.01,
+      "best_hour": 12
+    },
+    {
+      "station_uuid": "e36d9d5c-8b6f-1edf-ae8d-29ac1965ce87",
+      "fuel": "e10",
+      "raw_saving_eur_per_liter": -0.01,
+      "best_hour": 12
+    },
+    {
+      "station_uuid": "0c94d112-d3d4-4a98-a20d-138f7c5e1064",
+      "fuel": "e10",
+      "raw_saving_eur_per_liter": -0.01,
+      "best_hour": 12
+    },
+    {
+      "station_uuid": "5a4ffac7-160e-47bb-b394-02bc13f120d8",
+      "fuel": "e10",
+      "raw_saving_eur_per_liter": -0.01,
+      "best_hour": 12
+    },
+    {
+      "station_uuid": "5a4ffac7-160e-47bb-b394-02bc13f120d8",
       "fuel": "e5",
-      "raw_saving_eur_per_liter": 0.19,
+      "raw_saving_eur_per_liter": -0.01,
+      "best_hour": 12
+    },
+    {
+      "station_uuid": "aa29ee35-107d-4593-986d-64e20f212b9e",
+      "fuel": "diesel",
+      "raw_saving_eur_per_liter": -0.01,
+      "best_hour": 12
+    },
+    {
+      "station_uuid": "00060015-0090-4444-8888-acdc00000090",
+      "fuel": "diesel",
+      "raw_saving_eur_per_liter": -0.01,
+      "best_hour": 12
+    },
+    {
+      "station_uuid": "6c5dab20-6993-4fb9-b6a0-681d3c987b13",
+      "fuel": "diesel",
+      "raw_saving_eur_per_liter": -0.01,
+      "best_hour": 12
+    },
+    {
+      "station_uuid": "452a58be-be31-463b-ab33-0fcaab308df9",
+      "fuel": "e10",
+      "raw_saving_eur_per_liter": -0.01,
+      "best_hour": 12
+    },
+    {
+      "station_uuid": "452a58be-be31-463b-ab33-0fcaab308df9",
+      "fuel": "e5",
+      "raw_saving_eur_per_liter": -0.01,
+      "best_hour": 12
+    },
+    {
+      "station_uuid": "e36d9d5c-8b6f-1edf-ae8d-29ac1965ce87",
+      "fuel": "e5",
+      "raw_saving_eur_per_liter": -0.01,
+      "best_hour": 12
+    },
+    {
+      "station_uuid": "00060105-0001-4444-8888-acdc00000001",
+      "fuel": "e5",
+      "raw_saving_eur_per_liter": -0.01,
+      "best_hour": 12
+    },
+    {
+      "station_uuid": "0c94d112-d3d4-4a98-a20d-138f7c5e1064",
+      "fuel": "e5",
+      "raw_saving_eur_per_liter": -0.01,
+      "best_hour": 12
+    },
+    {
+      "station_uuid": "84db67bd-0766-4099-b1cd-0084f7ab936e",
+      "fuel": "diesel",
+      "raw_saving_eur_per_liter": 0.3,
       "best_hour": 17
+    },
+    {
+      "station_uuid": "e2c33611-3c9b-4609-89e3-4c63c976fcb7",
+      "fuel": "e10",
+      "raw_saving_eur_per_liter": 0.22,
+      "best_hour": 18
+    },
+    {
+      "station_uuid": "494c1c8c-e3ea-4fb6-8b79-ae8332c24352",
+      "fuel": "e10",
+      "raw_saving_eur_per_liter": 0.22,
+      "best_hour": 18
     }
   ],
   "methodology": {
